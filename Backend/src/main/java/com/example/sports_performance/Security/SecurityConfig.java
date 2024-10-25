@@ -21,15 +21,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())  // Disable CSRF protection (for stateless API)
+                .csrf(csrf -> csrf.disable())  // Disable CSRF protection (for simplicity)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()  // Public routes for registration/login
-                        .requestMatchers("/admin/**").hasRole("ADMIN")  // Protect admin routes
-                        .requestMatchers("/athlete/**").hasRole("ATHLETE")  // Protect athlete routes
-                        .anyRequest().authenticated()  // All other routes require authentication
+                        .anyRequest().authenticated()  // Other routes need authentication
+                )
+                .formLogin(form -> form  // Enable form-based login for now (no JWT)
+                        .permitAll()
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // Use stateless sessions (JWT)
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)  // Use sessions
                 );
 
         return http.build();
