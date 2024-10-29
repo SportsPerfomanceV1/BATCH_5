@@ -1,0 +1,32 @@
+body {
+    margin: 0;
+    padding: 0; /* Reset body padding */
+  }
+
+.container {
+    margin-top: 20px; /* Add top margin for some spacing from the top */
+    padding: 20px; /* Optional: Add some padding for better spacing */
+  }
+  
+
+.search-bar{
+    width: 80%;
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 5px;
+}
+.table{
+    margin: 40px 20px;
+}
+tr:hover{
+    background-color: whitesmoke;
+}
+.res-btn{
+    padding: 10px 20px;
+    background-color: red;
+    color: white;
+    border-radius: 5px;
+    border-color: red;
+    font-size: 15px;
+
+}
