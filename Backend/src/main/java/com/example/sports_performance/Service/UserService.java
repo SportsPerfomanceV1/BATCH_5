@@ -1,18 +1,15 @@
 package com.example.sports_performance.Service;
 
-import com.example.sports_performance.DTO.UserDto;
 import com.example.sports_performance.Model.User;
 import com.example.sports_performance.Repository.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
-
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -20,15 +17,25 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void registerUser(UserDto userDto) {
-        logger.info("Registering user: " + userDto.getUsername());
+    public void registerUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword())); // Encode password
+        userRepository.save(user); // Save user to the database
+    }
 
-        User user = new User();
-        user.setUsername(userDto.getUsername());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        user.setRole(userDto.getRole());
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 
-        userRepository.save(user);
-        logger.info("User registered successfully!");
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    public boolean deleteUser(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            userRepository.delete(user);
+            return true;
+        }
+        return false;
     }
 }

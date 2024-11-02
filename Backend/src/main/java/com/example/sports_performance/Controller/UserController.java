@@ -1,34 +1,44 @@
 package com.example.sports_performance.Controller;
 
-import com.example.sports_performance.DTO.LoginRequest;
-import com.example.sports_performance.DTO.UserDto;
+import com.example.sports_performance.Model.User;
 import com.example.sports_performance.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/users")
 public class UserController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
-    // Register user (athlete/admin)
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody UserDto userDto) {
-        // Call service method to save user (you'll implement the service next)
-        userService.registerUser(userDto);
-        return ResponseEntity.ok("User registered successfully");
+    // Get all users
+    @GetMapping
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
     }
 
-    // User login
-    @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody LoginRequest loginRequest) {
-        // Validate user credentials and generate JWT
-        return ResponseEntity.ok("JWT Token");
+    // Get a user by username
+    @GetMapping("/{username}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+        User user = userService.getUserByUsername(username);
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    // Delete a user by username
+    @DeleteMapping("/{username}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String username) {
+        boolean deleted = userService.deleteUser(username);
+        if (deleted) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }
