@@ -1,22 +1,32 @@
 package com.example.sports_performance.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "user")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true,nullable = false)
     private String username;
-    private String password;
-    private String role;  // 'ATHLETE' or 'ADMIN'
 
-    // Getters and Setters
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role; // roles can be "admin", "athlete", "coach"
+
+    // Constructors, Getters, and Setters
+    public User() {}
+
+    public User(String username, String password, Role role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
 
     public Long getId() {
         return id;
@@ -42,11 +52,12 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
+
 }
