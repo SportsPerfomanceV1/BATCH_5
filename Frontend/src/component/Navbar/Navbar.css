@@ -5,21 +5,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: fixed;  /* Make the navbar fixed at the top */
+  position: fixed;  
   top: 0;
   left: 0;
-  width: 100%;  /* Make the navbar span the entire width of the screen */
-  z-index: 1000; /* Ensures it stays on top of all other content */
+  width: 100%;  
+
 }
 
-/* Adjust body padding to prevent content hiding behind the navbar */
-body {
-  margin: 0;
-  padding-top: 80px;
-  border: 1px solid violet;  /* Add padding to push content below the fixed navbar */
-}
 
-/* Logo or brand title styling */
 .navbar .logo {
   font-size: 20px;
   font-weight: bold;
@@ -27,7 +20,6 @@ body {
   text-transform: uppercase;
 }
 
-/* List of navigation links */
 .navbar ul {
   list-style: none;
   display: flex;
@@ -35,12 +27,10 @@ body {
   padding: 0;
 }
 
-/* Each item in the navigation list */
 .navbar ul li {
   margin: 0 15px;
 }
 
-/* Styling for links inside the nav bar */
 .navbar ul li a {
   text-decoration: none;
   color: #333;
@@ -49,12 +39,10 @@ body {
   transition: color 0.3s ease;
 }
 
-/* Hover effect on nav links */
 .navbar ul li a:hover {
   color: #007bff;
 }
 
-/* Active link styling (optional) */
 .navbar ul li a.active {
   color: #007bff;
 }
@@ -62,6 +50,7 @@ body {
 /* Styling for login/signup buttons */
 .navbar .auth-links {
   display: flex;
+  margin-right: 50px;
 }
 
 .navbar .auth-links a {

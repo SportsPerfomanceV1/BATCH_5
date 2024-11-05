@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import PasswordStrengthMeter from '../PasswordStrengthMeter/PasswordStrengthMeter';
-import './signup.css'; // Make sure you have appropriate styles
+import './signup.css'; 
 import showPasswordIcon from '../../images/show.png';
 import hidePasswordIcon from '../../images/hide.png';
 
@@ -9,19 +9,18 @@ const SignupPage = () => {
     const [formData, setFormData] = useState({
         firstname: '',
         lastname: '',
-        middlename: '', // Optional field
+        middlename: '',
         username: '',
         email: '',
         password: '',
-        confirmPassword: '', // Added confirmPassword state
-        userType: 'athlete' // Default user type
+        confirmPassword: '', 
+        userType: 'athlete' 
     });
 
-    const [showPassword, setShowPassword] = useState(false); // State to manage password visibility
-    const [error, setError] = useState(''); // For error messages
-    const [message, setMessage] = useState(''); // For success messages
+    const [showPassword, setShowPassword] = useState(false); 
+    const [error, setError] = useState(''); 
+    const [message, setMessage] = useState(''); 
 
-    // Handle input changes
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -29,33 +28,24 @@ const SignupPage = () => {
         });
     };
 
-    // Toggle password visibility
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
-    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Ensure passwords match
         if (formData.password !== formData.confirmPassword) {
             setError('Passwords do not match');
             return;
         }
         try {
-            // Clear previous messages
             setError('');
             setMessage('');
-
-            // Make a POST request to the backend signup endpoint
             const response = await axios.post('http://localhost:8080/auth/register', formData);
-
-            // Handle success
-            setMessage(response.data); // Backend returns success message
+            setMessage(response.data); 
         } catch (error) {
-            // Handle error
             if (error.response && error.response.data) {
-                setError(error.response.data); // Backend returns error message
+                setError(error.response.data);
             } else {
                 setError('Signup failed. Please try again.');
             }
@@ -154,8 +144,6 @@ const SignupPage = () => {
                     </select>
                 </div>
                 <button type="submit" className="signup-button">Sign Up</button>
-
-                {/* Display success or error message below the button */}
                 {message && <p className="success-message">{message}</p>}
                 {error && <p className="error-message">{error}</p>}
             </form>

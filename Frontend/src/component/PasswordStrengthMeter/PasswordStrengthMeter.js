@@ -30,7 +30,7 @@ const PasswordStrengthMeter = ({ password }) => {
 
     return (
         <div className="password-strength-meter">
-            <div className="strength-bar-container">
+            {/* <div className="strength-bar-container">
                 <div
                     className={`strength-bar ${strength >= 1 ? 'filled' : ''}`}
                     style={{ backgroundColor: strength >= 1 ? getBarColor() : 'gray' }}
@@ -43,7 +43,7 @@ const PasswordStrengthMeter = ({ password }) => {
                     className={`strength-bar ${strength === 3 ? 'filled' : ''}`}
                     style={{ backgroundColor: strength === 3 ? getBarColor() : 'gray' }}
                 ></div>
-            </div>
+            </div> */}
             <div className="strength-label">
                 {strength === 1 && <span>Weak</span>}
                 {strength === 2 && <span>Good</span>}

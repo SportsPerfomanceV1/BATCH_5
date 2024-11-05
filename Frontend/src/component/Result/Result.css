@@ -1,11 +1,11 @@
 body {
     margin: 0;
-    padding: 0; /* Reset body padding */
+    padding: 0; 
   }
 
 .container {
-    margin-top: 20px; /* Add top margin for some spacing from the top */
-    padding: 20px; /* Optional: Add some padding for better spacing */
+    margin-top: 20px; 
+    padding: 20px;
   }
   
 

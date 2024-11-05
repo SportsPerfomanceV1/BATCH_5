@@ -27,7 +27,6 @@ const App = () => {
                 <Route path="/signup" element={<SignupPage />} /> {/* Signup Page */}
                 <Route path="/login" element={<LoginPage />} /> {/* Login Page */}
                 <Route path="/results" element={<ResultPage />} /> {/* Results Page */}
-                <Route path="/" element={<Navigate to="/results" />} /> {/* Redirect to Results Page */}
             </Routes>
         </Router>
     );
