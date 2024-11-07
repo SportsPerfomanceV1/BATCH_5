@@ -5,7 +5,7 @@ const ResultPage = () => {
   return (
     <div className='container'>
       <h1>Event Results</h1>
-      <input type='search' class='search-bar' placeholder='Search by meet name or event title'></input>
+      <input type='search' className='search-bar' placeholder='Search by meet name or event title'></input>
       <div className='result-table'>
         <table border='1px' className='table' cellPadding='10px 30px' cellSpacing='0px'>
           <tr>

@@ -9,7 +9,6 @@
   top: 0;
   left: 0;
   width: 100%;  
-
 }
 
 
@@ -59,12 +58,13 @@
   border: 1px solid black;
   border-radius: 5px;
   text-decoration: none;
-  color: black;
+  color: white;
+  background-color: black;
   font-weight: 500;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .navbar .auth-links a:hover {
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: black;
 }

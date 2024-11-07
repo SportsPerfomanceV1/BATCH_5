@@ -1,0 +1,29 @@
+.athletes-page {
+    padding: 20px;
+    margin-top: 50px;
+  }
+  
+  .athletes-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  .athlete-card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    width: 250px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .athlete-card h3 {
+    margin: 10px 0;
+  }
+  
+  .athlete-card p {
+    font-size: 14px;
+    color: #555;
+  }
+  
