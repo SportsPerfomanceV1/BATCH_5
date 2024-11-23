@@ -1,35 +1,71 @@
 package com.example.sports_performance.Security;
 
+import com.example.sports_performance.Model.User;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.security.Keys;
+import javax.crypto.SecretKey;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.stereotype.Component;
-import javax.crypto.SecretKey;
+
 import java.util.Date;
 
-@Component
+@Service
 public class JwtUtil {
-    private final SecretKey secretKey = Keys.hmacShaKeyFor("Nt4Gpzgb5D4E8OMiUGtyuKjMTffSp0yj".getBytes());
 
-    public String generateToken(String username) {
+    private final SecretKey SECRET_KEY = Keys.hmacShaKeyFor("Nt4Gpzgb5D4E8OMiUGtyuKjMTffSp0yj".getBytes());
+
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    // Encode the password
+    public String encodePassword(String password) {
+        return passwordEncoder.encode(password);
+    }
+
+    public boolean validatePassword(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
+    }
+
+    // Generate JWT token
+    public String generateToken(User user) {
+        Claims claims = Jwts.claims().setSubject(user.getUsername());
+        claims.put("role", user.getRole()); // Add role to token claims
+
         return Jwts.builder()
-                .setSubject(username)
+                .setClaims(claims)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // Token valid for 1 hour
-                .signWith(secretKey, SignatureAlgorithm.HS256)
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours expiry
+                .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public String extractUsername(String token) {
-        return extractClaims(token).getSubject();
+    // Validate JWT token
+    public Boolean validateToken(String token) {
+        try {
+            Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
-
-    private Claims extractClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(secretKey)
+    // Get user from token
+    public String getUsernameFromToken(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(SECRET_KEY)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+        return claims.getSubject(); // Extracting the username (or user ID)
+    }
+
+    public String getRoleFromToken(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(SECRET_KEY)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("role", String.class); // Assuming 'role' is stored in the token
     }
 }

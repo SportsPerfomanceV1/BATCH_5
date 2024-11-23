@@ -1,19 +1,10 @@
 package com.example.sports_performance.DTO;
 
-import jakarta.validation.constraints.NotBlank;
-
-public class LoginRequest {
-    @NotBlank(message = "Username is required")
+public class LoginDto {
     private String username;
-
-    @NotBlank(message = "Password is required")
     private String password;
 
-    public LoginRequest(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-
+    // Getters and Setters
     public String getUsername() {
         return username;
     }
@@ -30,4 +21,3 @@ public class LoginRequest {
         this.password = password;
     }
 }
-

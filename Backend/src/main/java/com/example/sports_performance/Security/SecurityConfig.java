@@ -1,6 +1,7 @@
 package com.example.sports_performance.Security;
 
 import com.example.sports_performance.Service.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -20,6 +22,9 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     public SecurityConfig(UserDetailsServiceImpl userDetailsService) {
         this.userDetailsService = userDetailsService;
@@ -31,9 +36,21 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
+
+                        .requestMatchers("/api/athletes/**").hasAuthority("ATHLETE")
+                        .requestMatchers("/api/assistance/**").hasRole("ATHLETE")
+                        .requestMatchers("/api/achievements").hasRole("ATHLETE")
+                        .requestMatchers("/api/daily-diets").hasRole("ATHLETE")
+                        .requestMatchers("/api/weight-plans").hasRole("ATHLETE")
+
+                        .requestMatchers("/api/coaches/**").hasRole("COACH")
+                        .requestMatchers("/api/assistance/**").hasRole("COACH")
+                        .requestMatchers("/api/achievements").hasRole("COACH")
+                        .requestMatchers("/api/daily-diets").hasRole("COACH")
+                        .requestMatchers("/api/weight-plans").hasRole("COACH")
                         .anyRequest().authenticated()
                 )
-                .authenticationProvider(authenticationProvider());
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

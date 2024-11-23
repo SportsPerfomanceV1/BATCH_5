@@ -3,35 +3,24 @@ package com.example.sports_performance.Model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "user")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(unique = true,nullable = false)
     private String username;
-
-    @Column(unique = true, nullable = false)
     private String email;
-
-    @Column(nullable = false)
     private String password;
-
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Role role; // roles can be "admin", "athlete", "coach"
+    private Role role;
 
-    // Constructors, Getters, and Setters
-    public User() {}
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Athlete athlete;
 
-    public User(String username,String email, String password, Role role) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Coach coach;
 
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -48,13 +37,14 @@ public class User {
         this.username = username;
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email){
+    public void setEmail(String email) {
         this.email = email;
     }
+
     public String getPassword() {
         return password;
     }
@@ -71,4 +61,19 @@ public class User {
         this.role = role;
     }
 
+    public Athlete getAthlete() {
+        return athlete;
+    }
+
+    public void setAthlete(Athlete athlete) {
+        this.athlete = athlete;
+    }
+
+    public Coach getCoach() {
+        return coach;
+    }
+
+    public void setCoach(Coach coach) {
+        this.coach = coach;
+    }
 }
