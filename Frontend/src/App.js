@@ -1,33 +1,34 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate, Link } from 'react-router-dom';
-import SignupPage from './component/Signup/signup'; // Signup component
-import LoginPage from './component/Login/login';   // Login component
-import ResultPage from './component/Result/Result'; // Results page component
-import './component/Navbar/Navbar.css'; // Import your Navbar CSS file
+// src/App.js
+import React from "react";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import { AppBar, Toolbar, Button, Typography, Box } from "@mui/material";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import LoginIcon from "@mui/icons-material/Login";
+import "./App.css";
 
 const App = () => {
     return (
         <Router>
-            <div className="navbar">
-                <div className="logo">Sports</div> {/* Logo or title */}
-                <ul>
-                    <li><Link to="/">News</Link></li>
-                    <li><Link to="/">Events</Link></li>
-                    <li><Link to="/results">Results</Link></li> {/* Link to Results page */}
-                    
-                    <li><Link to="/">Coaches</Link></li>
-                    <li><Link to="/">Athletes</Link></li>
-                </ul>
-                <div className="auth-links">
-                    <Link to="/login">Login</Link>
-                    <Link to="/signup">Sign Up</Link>
-                </div>
-            </div>
+            <AppBar position="static" sx={{ background: "#ffffff", boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)" }}>
+                <Toolbar sx={{ display: "flex", justifyContent: "space-between", padding: "0 2rem" }}>
+                    <Typography variant="h5" sx={{ color: "#000000", fontWeight: "bold" }}>
+                        Sports Performance
+                    </Typography>
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <Link to="/register" style={{ textDecoration: "none", color: "#000000" }}>
+                            <Button startIcon={<PersonAddIcon />} sx={{ marginRight: "1rem", color: "#000000" }}>Register</Button>
+                        </Link>
+                        <Link to="/login" style={{ textDecoration: "none", color: "#000000" }}>
+                            <Button startIcon={<LoginIcon />} sx={{ color: "#000000" }}>Login</Button>
+                        </Link>
+                    </Box>
+                </Toolbar>
+            </AppBar>
             <Routes>
-                <Route path="/signup" element={<SignupPage />} /> {/* Signup Page */}
-                <Route path="/login" element={<LoginPage />} /> {/* Login Page */}
-                <Route path="/results" element={<ResultPage />} /> {/* Results Page */}
-                <Route path="/" element={<Navigate to="/results" />} /> {/* Redirect to Results Page */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
             </Routes>
         </Router>
     );
